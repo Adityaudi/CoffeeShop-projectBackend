@@ -1,0 +1,25 @@
+{
+  "name": "belajar-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "author": "adityaudi",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-cors": "0.0.3",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.0.0-beta.2",
+    "pg": "^8.3.3",
+    "pg-pool": "^3.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.7.0"
+  }
+}
