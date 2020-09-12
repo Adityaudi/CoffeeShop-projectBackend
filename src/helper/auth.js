@@ -7,7 +7,8 @@ const auth = {}
 
 auth.login = async (req, res) => {
         try {
-            const dataUser = await model.getByUser(req.body.name)
+            const dataUser = await model.getByUser(req.body.username)
+            username = dataUser[0].username
             if (dataUser.length <= 0){
                 return responseCode(res, 404, 'Username Not Found!')
             }
@@ -15,7 +16,11 @@ auth.login = async (req, res) => {
                 const checkPass = await bcr.compare(passUser,dataUser[0].password)
 
                 if (checkPass){
-                    return responseCode(res, 200, await auth.setToken(req.body.name))
+                    const tokenUser = await auth.setToken(req.body.username)
+                    token = tokenUser.tokenRefresh
+                    const RefreshToken = await model.setToken(token, username)
+                    const tokenLimit= responseCode(res, 200, tokenUser.tokenLimit)
+                    return tokenLimit, RefreshToken
                 }else {
                     return responseCode(res, 200, 'Invalid Username & Password!')
                 }
@@ -29,18 +34,18 @@ auth.setToken = async (user) => {
         const payload = {
             user : user
         }
-        
-        const tokenLimit = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: '10s'} )
-        const tokenRefresh = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: '60s'} )
+        const tokenLimit = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: '60s'} )
+        const tokenRefresh = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: '7d'} )
         const result = {
-            token : tokenLimit,tokenRefresh,
+            tokenLimit : tokenLimit, 
+            tokenRefresh : tokenRefresh,
             msg : "Token succesfully created!"
         }
+      
         return result
     } catch (error) {
         return error
     }
 }
-
 
 module.exports = auth

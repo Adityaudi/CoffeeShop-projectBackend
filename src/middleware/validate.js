@@ -12,7 +12,6 @@ const checkToken = (req, res, next) => {
         return responseCode(res, 404, result)
     }
 
-
     // eslint-disable-next-line no-undef
     jwt.verify(token, process.env.SECRET_KEY, (err) => {
         if (err) {

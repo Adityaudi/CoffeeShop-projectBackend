@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 
 
 const server = express()
-const port = 2153
+const port = 2152
 
 server.use(bodyParser.urlencoded({extended: false }))
 server.use(bodyParser.json())
@@ -22,6 +22,7 @@ database.connect()
 server.listen(port, () => {
     console.log (`Service app running on http://localhost:${port}`)
 })
+
 
 // ..DOKUMENTASI POSTMAN
 // https://documenter.getpostman.com/view/12508682/TVCdzo4B

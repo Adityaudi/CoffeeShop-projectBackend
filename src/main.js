@@ -13,10 +13,12 @@ Route.use ("/category", category)
 Route.use("/history", history)
 Route.use("/users", userslogin)
 Route.use('/auth', auth)
+Route.use("/public", express.static("public"))
 
 Route.get("*", (req, res) =>{
     res.status(500).json('OOPS! PAGE NOT FOUND.')
 })
+
 
 module.exports = Route
 

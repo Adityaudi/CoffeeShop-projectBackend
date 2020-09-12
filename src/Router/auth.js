@@ -1,7 +1,8 @@
 const express = require('express')
-const controller = require ('../helper/auth')
+const helper = require ('../helper/auth')
 const Route = express.Router()
 
-Route.post("/", controller.login)
+Route.post("/", helper.login)
+// Route.put("/", helper.update)
 
 module.exports = Route

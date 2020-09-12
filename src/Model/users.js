@@ -4,7 +4,7 @@ const users = {}
 users.GetAll = () => {
     return new Promise((resolve, reject) => {
         database 
-            .query(`SELECT * FROM "TBL_USER"`) 
+            .query(`SELECT * FROM "TBL_USERLOGIN"`) 
             .then((res) => {
                 resolve(res.rows)
             })
@@ -14,19 +14,21 @@ users.GetAll = () => {
     })          
 }
 
-users.add = (name, password) => {
+users.add = (name, username, photo, password) => {
     database 
-        .query(`INSERT INTO "TBL_USER" (name, password) VALUES ('${name}', '${password}')`)
+        .query(`INSERT INTO "TBL_USERLOGIN" (name, username, photo, password) VALUES ('${name}', '${username}', '${photo}', '${password}')`)
             .then((result) => {
+                console.log('a')
                 return result
             }).catch((err) => {
+                console.log('b')
                 return err
             });
 }
 users.getByUser = (user) => {
     return new Promise((resolve, reject) =>{
         database
-            .query(`SELECT * FROM "TBL_USER" WHERE name = '${user}' ` )
+            .query(`SELECT * FROM "TBL_USERLOGIN" WHERE username = '${user}' ` )
                 .then((result) => {
                     resolve(result.rows)
                 }).catch((err) => {
@@ -34,16 +36,13 @@ users.getByUser = (user) => {
                 });
     })
 }
-users.setToken = (user, token) => {
+users.setToken = (token, name) => {
     return new Promise((resolve, reject) => {
         database
-            console.log('a')
-            .query(`UPDATE "TBL_USER" SET tokenuser = '${token}' WHERE name = '${user}'`)
-            .then((result) => {
-                console.log('a')
+        .query(`UPDATE public."TBL_USERLOGIN" SET token = '${token}' WHERE username = '${name}'`)
+        .then((result) => {
                 resolve(result)
             }).catch((err) => {
-                console.log('b')
                 reject(err)
             });
     })
