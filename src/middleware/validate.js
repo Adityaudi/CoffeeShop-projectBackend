@@ -9,7 +9,7 @@ const checkToken = (req, res, next) => {
         const result = {
             msg : "please fill in the token!"
         }
-        return responseCode(res, 404, result)
+        return responseCode(res, 401, 'token not found!')
     }
 
     // eslint-disable-next-line no-undef
@@ -17,7 +17,7 @@ const checkToken = (req, res, next) => {
         if (err) {
             const result = {
                 err : err,
-                msg : 'error'
+                msg : 'Token not found!'
             }
             return responseCode(res, 404, result)
         }

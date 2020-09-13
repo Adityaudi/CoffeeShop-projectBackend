@@ -43,15 +43,15 @@ product.sort = (SORT) => {
 } 
 
 // Add Product.
-product.Add = (NAME_PRODUCT, PRICE, IMG, CATEGORY) => {
+product.Add = (data) => {
+        
         database 
-            .query (`INSERT INTO "TBL_PRODUK" ("NAME_PRODUCT", "PRICE", "IMG", "CATEGORY") VALUES ('${NAME_PRODUCT}', '${PRICE}', '${IMG}', '${CATEGORY}')`)
+            .query (`INSERT INTO "TBL_PRODUK" ("NAME_PRODUCT", "PRICE", "IMG", "CATEGORY") VALUES ('${data.NAME_PRODUCT}', '${data.PRICE}', '${data.IMG}', '${data.CATEGORY}')`)
             .then((res) => {
                 res = "add product success!"
                 return res
             })
             .catch((err) => {
-                console.log('ini erorr')
                 return err
             })
 }

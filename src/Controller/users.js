@@ -13,15 +13,21 @@ users.all = async (request, response) => {
 }    
 users.add = async (req, res) => {
     try {
-        // eslint-disable-next-line no-unused-vars
-        const {name, username,photo, password} = req.body
-        const hashPassword = await hash(req.body.password)
-        const image = req.file.path
-        console.log(image)
-        // eslint-disable-next-line no-unused-vars
-        
-        const data = model.add(name,username,image, hashPassword)
-        return responseCode(res, 200, 'User been register!') 
+        if (req.file === undefined) {
+            return res.status(500).json("YOUR PHOTO NOT FILLED!")
+        } else {
+            const hashPass = await hash(req.body.password)
+            const data = {
+                name : req.body.name,
+                username : req.body.username,
+                photo : req.file.path,
+                password : hashPass,
+                role : req.body.role
+            }
+            const dataUser = model.add(data)
+            return responseCode(res, 201, 'Users been registed!')
+        }
+
     } catch  {
         return responseCode(res, 500, 'User regist Error!')    
     }

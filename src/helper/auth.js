@@ -8,34 +8,35 @@ const auth = {}
 auth.login = async (req, res) => {
         try {
             const dataUser = await model.getByUser(req.body.username)
-            username = dataUser[0].username
-            if (dataUser.length <= 0){
+            
+            if (dataUser.length == []){
                 return responseCode(res, 404, 'Username Not Found!')
-            }
+            } else {
                 const passUser = req.body.password
                 const checkPass = await bcr.compare(passUser,dataUser[0].password)
 
                 if (checkPass){
-                    const tokenUser = await auth.setToken(req.body.username)
-                    token = tokenUser.tokenRefresh
+                    const username = dataUser[0].username
+                    const tokenUser = await auth.TokenUser(req.body.username)
+                    const token = tokenUser.tokenRefresh
                     const RefreshToken = await model.setToken(token, username)
-                    const tokenLimit= responseCode(res, 200, tokenUser.tokenLimit)
-                    return tokenLimit, RefreshToken
+                    return responseCode(res, 200, tokenUser)
                 }else {
                     return responseCode(res, 200, 'Invalid Username & Password!')
                 }
-
+            }
         } catch (error) {
             return responseCode(res, 500, error)
         }
     }
-auth.setToken = async (user) => {
+auth.TokenUser = async (user, role) => {
     try {
         const payload = {
-            user : user
+            username : user,
+            role : role
         }
-        const tokenLimit = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: '60s'} )
-        const tokenRefresh = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: '7d'} )
+        const tokenLimit = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: 200} )
+        const tokenRefresh = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: 7000} )
         const result = {
             tokenLimit : tokenLimit, 
             tokenRefresh : tokenRefresh,

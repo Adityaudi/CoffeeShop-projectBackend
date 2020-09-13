@@ -1,23 +1,27 @@
 function respon(res, status, result = ""){
-    let description = ""
+    let messege = ""
+    
     switch (status) {
         case 200: 
-            description = "OK"
+            messege = "OK"
+            break
+        case 201:
+            messege = "Created!"
             break
         case 401: 
-            description = "Unauthorized"
+            messege = "Unauthorized"
             break
         case 403: 
-            description = "Forbidden"
+            messege = "Forbidden"
             break
         case 404:
-            description = "Not Found"
+            messege = "Not Found"
             break
         case 500:
-            description = "Internal Server Error"
+            messege = "Internal Server Error"
             break
         default:
-            description = ""
+            messege = ""
     }
 
     const isObject =  (data) => {
@@ -26,10 +30,9 @@ function respon(res, status, result = ""){
 
     const results =  {
         status: status,
-        messege: description,
+        description : messege,
         result: isObject(result) ? [result] : Array.isArray(result) ? result : result,
     }
-
     res.status(status).json(results)
 }
 

@@ -1,13 +1,15 @@
-
 const model = require("../Model/CRUD-product")
 const responseCode = require("../helper/response")
+const redis = require('../Config/redisConn')
 const product = {} 
 
 product.all = async (request, response) => {
     try {
         const data = await model.GetAll()
+        const data_redis = JSON.stringify(data)
+        redis.redisdb.setex("cache", 25,  data_redis)
         return responseCode(response, 200 ,data)  
-    } catch  {
+    } catch  {  
         return responseCode(response, 500)
     }
 }               
@@ -32,12 +34,20 @@ product.sort = async (request, response) => {
 
 product.add = (req, res) => {
     try {
-        const {NAME_PRODUCT, PRICE, IMG, CATEGORY                                                                                                                                     } = req.body
-        const data = model.Add(NAME_PRODUCT, PRICE, IMG, CATEGORY)
-        return responseCode(res, 200, data)
+        if (req.file === undefined) {
+            return res.status(500).json("IMAGE PRODUCT NOT FILLED!")
+        }else {
+            const data = {
+                NAME_PRODUCT : req.body.NAME_PRODUCT,
+                PRICE : req.body.PRICE,
+                IMG : req.file.path,
+                CATEGORY : req.body.CATEGORY
+            }
+            const dataProduct = model.Add(data)
+            responseCode(res, 201, 'PRODUCT ADDED!')
+        }
     } catch (error) {
-        res.send('ERORR ADD PRODUCT')
-        return responseCode(res, 500, 'ERROR, DATABASE CONNECTION!')
+        return responseCode(res, 500, 'ERROR, ADD PRODUCT!')
     }   
 }
 

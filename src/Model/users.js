@@ -14,17 +14,16 @@ users.GetAll = () => {
     })          
 }
 
-users.add = (name, username, photo, password) => {
-    database 
-        .query(`INSERT INTO "TBL_USERLOGIN" (name, username, photo, password) VALUES ('${name}', '${username}', '${photo}', '${password}')`)
-            .then((result) => {
-                console.log('a')
-                return result
-            }).catch((err) => {
-                console.log('b')
-                return err
-            });
-}
+users.add = (data) => {
+        database 
+            .query(`INSERT INTO "TBL_USERLOGIN" (name, username, photo, password, role) VALUES ('${data.name}', '${data.username}', '${data.photo}', '${data.password}', '${data.role}')`)
+                .then((result) => {
+                   return result
+                }).catch((err) => {
+                    return err
+                });
+            }
+
 users.getByUser = (user) => {
     return new Promise((resolve, reject) =>{
         database
@@ -36,10 +35,10 @@ users.getByUser = (user) => {
                 });
     })
 }
-users.setToken = (token, name) => {
+users.setToken = (token, username) => {
     return new Promise((resolve, reject) => {
         database
-        .query(`UPDATE public."TBL_USERLOGIN" SET token = '${token}' WHERE username = '${name}'`)
+        .query(`UPDATE public."TBL_USERLOGIN" SET token = '${token}' WHERE username = '${username}'`)
         .then((result) => {
                 resolve(result)
             }).catch((err) => {

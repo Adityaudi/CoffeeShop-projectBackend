@@ -1,9 +1,12 @@
 const model = require("../Model/CRUD-history")
+const redis = require("../Config/redisConn")
 const history = {} 
 
 history.all = async (request, response) => {
     try {
         const data = await model.GetAll()
+        const data_redis = JSON.stringify(data)
+        redis.redisdb.setex("cache", 25,  data_redis)
         return response.status(200).json(data)  
     } catch (error) {
         return response.status(500).json(`OOPS! ERORR GET DATA. ${error}`)
