@@ -11,7 +11,7 @@ const Route = express.Router()
 Route.use("/product", data)
 Route.use ("/category", category)
 Route.use("/history", history)
-Route.use("/users", userslogin)
+Route.use( "/users", userslogin)
 Route.use('/auth', auth)
 Route.use("/public", express.static("public"))
 

@@ -37,7 +37,7 @@ users.getByUser = (user) => {
 }
 users.setToken = (token, username) => {
     return new Promise((resolve, reject) => {
-        database
+        database    
         .query(`UPDATE public."TBL_USERLOGIN" SET token = '${token}' WHERE username = '${username}'`)
         .then((result) => {
                 resolve(result)

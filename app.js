@@ -5,14 +5,12 @@ const database = require("./src/Config/ConnectionDB")
 const bodyParser = require('body-parser')
 const redis = require('./src/Config/redisConn')
 
-
 const server = express()
 const port = process.env.PORT
 
 server.use(bodyParser.urlencoded({extended: false }))
 server.use(bodyParser.json())
 server.use(Route)
-
 
 database.connect()
 // eslint-disable-next-line no-unused-vars

@@ -56,10 +56,10 @@ product.Add = (data) => {
             })
 }
 // Update Product
-product.Update = (ID, NAME_PRODUCT, PRICE, IMG, CATEGORY) => {
+product.Update = (data) => {
     database
         .query(
-            `UPDATE "TBL_PRODUK" SET "NAME_PRODUCT" = '${NAME_PRODUCT}', "PRICE" = '${PRICE}', "IMG"= '${IMG}', "CATEGORY"= '${CATEGORY}' WHERE "ID"= '${ID}'`)
+            `UPDATE "TBL_PRODUK" SET "NAME_PRODUCT" = '${data.NAME_PRODUCT}', "PRICE" = '${data.PRICE}', "IMG"= '${data.IMG}', "CATEGORY"= '${data.CATEGORY}' WHERE "ID"= '${data.ID}'`)
         .then((res) => {
             res = "Update product success!"
             return res
