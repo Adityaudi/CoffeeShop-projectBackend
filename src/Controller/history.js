@@ -13,9 +13,15 @@ history.all = async (request, response) => {
     }
 }
 history.add = (req, res) => {
-    const { CASHIER, DATE, ORDERS, AMOUNT} = req.body
-    const data = model.Add(CASHIER, DATE, ORDERS, AMOUNT)
-    return res.send(data)
+    const data = {
+        CASHIER : req.body.CASHIER,
+        DATE : req.body.DATE,
+        ORDERS : req.body.ORDERS,
+        AMOUNT :req.body.AMOUNT
+    }
+    console.log(req.body)
+    const dataHistory = model.Add(data)
+    return dataHistory
 }
 
 history.update = (req, res) => {

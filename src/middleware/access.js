@@ -6,19 +6,17 @@ const JwtDecode = require('jwt-decode')
 const checkrole = async (req, res, next) => {
     try {
         const {token} = req.headers
-
         const jwtToken = JwtDecode(token)
         const userRole = jwtToken.username
         const dataUser = await DBdataUser.getByUser(userRole)
-        
-        if (dataUser[0].role == 'admin'){
+        if (dataUser[0].role == 'Admin'){
             next()
         }else {
-           responseCode(res, 401 ,'ACCESS BLOCKED, Please call admin!')
+           res.status(401).json('ACCESS BLOCKED, Please call admin!')
         }
 
     } catch (error) {
-        return responseCode(res, 500, 'Access Error!')       
+        return res.status(500).json('Access Error!')       
     }
 }
 

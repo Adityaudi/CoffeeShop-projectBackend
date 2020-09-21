@@ -1,16 +1,15 @@
 const redis = require("../Config/redisConn")
-const responsCode = require("../helper/response")
 
 
 const GetAll = (req, res, next) => {
-    redis.redisdb.get("cacheAdd", (err, respon) => {
+    redis.redisdb.get("cacheRedis", (err, respon) => {
         if (err) {
-            return responsCode(res, 500, err)
+            return err
         }
 
         if (respon !== null) {
             const data = JSON.parse(respon)
-            return  responsCode(res, 200, data)
+            return res.status(200).json(data)
         } else {
             next()
         }

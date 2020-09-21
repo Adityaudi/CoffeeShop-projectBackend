@@ -13,23 +13,17 @@ users.all = async (request, response) => {
 }    
 users.add = async (req, res) => {
     try {
-        if (req.file === undefined) {
-            return res.status(500).json("YOUR PHOTO NOT FILLED!")
-        } else {
             const hashPass = await hash(req.body.password)
             const data = {
                 name : req.body.name,
                 username : req.body.username,
-                photo : req.file.path,
+                photo : req.body.photo,
                 password : hashPass,
                 role : req.body.role
             }
             const dataUser = model.add(data)
-            return responseCode(res, 201, 'Users been registed!')
-        }
-
     } catch  {
-        return responseCode(res, 500, 'User regist Error!')    
+        return res.status(500).json('error')
     }
 } 
 

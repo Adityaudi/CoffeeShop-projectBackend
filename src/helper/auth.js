@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 const model = require('../Model/users');
-const responseCode = require('../helper/response')
 const bcr = require('bcrypt')
 const jwt = require('jsonwebtoken');
 const auth = {}
@@ -9,7 +8,7 @@ auth.login = async (req, res) => {
         try {
             const dataUser = await model.getByUser(req.body.username)
             if (dataUser.length == []){
-                return responseCode(res, 404, 'Username Not Found!')
+                return res.status(404).json('Username Not Found!')
             } else {
                 const passUser = req.body.password
                 const checkPass = await bcr.compare(passUser,dataUser[0].password)
@@ -18,13 +17,13 @@ auth.login = async (req, res) => {
                     const tokenUser = await auth.TokenUser(req.body.username)
                     const token = tokenUser.token
                     const updateToken = await model.setToken(token, username)
-                    return responseCode(res, 200, tokenUser)
+                    return res.status(200).json(tokenUser)
                 }else {
-                    return responseCode(res, 200, 'Invalid Username & Password!')
+                    return res.status(401).json('Invalid Username & Password!')
                 }
             }
         } catch (error) {
-            return responseCode(res, 500, error)
+            return  error
         }
     }
 auth.TokenUser = async (user) => {
@@ -32,7 +31,7 @@ auth.TokenUser = async (user) => {
         const payload = {
             username : user
         }
-        const tokenLimit = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: 10} )
+        const tokenLimit = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: 1000} )
         const result = {
             token : tokenLimit, 
             msg : "Token succesfully created!"

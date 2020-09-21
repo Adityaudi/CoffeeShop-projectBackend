@@ -9,8 +9,8 @@ const Route = express.Router()
 Route.get("/", redis, controller.all)
 Route.get ("/search", redis, controller.search)
 Route.get ("/filterby", redis, controller.sort)
-Route.post("/", upload.single('IMG'), redis, validate, role, controller.add)
-Route.put("/", upload.single('IMG'),  validate, role, redis, controller.update)
-Route.delete("/", redis, validate, role, controller.delete)
+Route.post("/", controller.add)
+Route.put("/", controller.update)
+Route.delete("/delete/:ID", controller.delete)
 
 module.exports = Route 

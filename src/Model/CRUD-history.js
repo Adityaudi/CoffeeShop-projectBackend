@@ -4,7 +4,7 @@ const history = {}
 history.GetAll = () => {
     return new Promise((resolve, reject) => {
         database
-            .query(`SELECT * FROM "TBL_HISTORY"`)
+            .query(`SELECT * FROM "TBL_HISTORYuser"`)
             .then((res) => {
                 resolve(res.rows)
             })
@@ -15,15 +15,17 @@ history.GetAll = () => {
 }
 
 // Add history
-history.Add = (CASHIER, DATE, ORDERS, AMOUNT) => {
+history.Add = (data) => {
     database 
         .query (
-            `INSERT INTO "TBL_HISTORY" ("CASHIER", "DATE", "ORDERS", "AMOUNT") VALUES ('${CASHIER}', '${DATE}', '${ORDERS}', ${AMOUNT})`)
+            `INSERT INTO public."TBL_HISTORYuser"(
+                "Cashier", date, orders, amount)
+                VALUES ('${data.CASHIER}', '${data.DATE}', '${data.ORDERS}', '${data.AMOUNT}');`)
         .then((res) => {
-            res = "add history success!"
             return res
         })
         .catch((err) => {
+            console.log('a')
             return err
         })
     }
