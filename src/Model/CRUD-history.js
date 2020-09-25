@@ -33,7 +33,7 @@ history.Add = (data) => {
 history.Update = (INVOICES, CASHIER, DATE, ORDERS, AMOUNT) => {
     database
         .query (
-            `UPDATE "TBL_HISTORY" SET "CASHIER" = '${CASHIER}', "DATE"='${DATE}', "ORDERS"='${ORDERS}', "AMOUNT"='${AMOUNT}' WHERE "INVOICES"= ${INVOICES}`)
+            `UPDATE "TBL_HISTORYuser" SET "CASHIER" = '${CASHIER}', "DATE"='${DATE}', "ORDERS"='${ORDERS}', "AMOUNT"='${AMOUNT}' WHERE "INVOICES"= ${INVOICES}`)
         .then((res) => {
             res = "Update history success!"
             return res
@@ -46,7 +46,7 @@ history.Update = (INVOICES, CASHIER, DATE, ORDERS, AMOUNT) => {
 history.Delete = (INVOICES) => {
     database
         .query (
-            `DELETE FROM "TBL_HISTORY" WHERE "INVOICES"= ${INVOICES}`)
+            `DELETE FROM "TBL_HISTORYuser" WHERE "INVOICES"= ${INVOICES}`)
         .then((res) => {
             res = "Delete history success!"
             return res

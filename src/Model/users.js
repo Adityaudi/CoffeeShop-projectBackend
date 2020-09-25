@@ -46,5 +46,17 @@ users.setToken = (token, username) => {
             });
     })
 }
+users.search = (username) => {
+    return new Promise((resolve, reject) => {
+        database 
+            .query(`SELECT * FROM "TBL_USERLOGIN" WHERE username LIKE '%${username}%'`)
+            .then((res) => {
+                resolve(res.rows)
+            })
+            .catch((err) => {
+                reject(err)
+            })
+    })
+}
 
 module.exports = users

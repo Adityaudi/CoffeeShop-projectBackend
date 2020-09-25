@@ -10,7 +10,17 @@ users.all = async (request, response) => {
     } catch  {
         return responseCode(response, 500)
     }
-}    
+}
+users.search = async (req, res) => {
+    const {token} = req.body
+    const jwtToken = JwtDecode(token)
+    const userRole = jwtToken.username
+    const dataUser = await model.getByUser(userRole)
+    const {username} = req.query.name=userRole
+    const data = await model.search(username)
+    return res.status(200).json(data)
+}   
+
 users.add = async (req, res) => {
     try {
             const hashPass = await hash(req.body.password)

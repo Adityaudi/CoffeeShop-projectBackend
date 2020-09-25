@@ -4,9 +4,10 @@ const category = require ('./Router/category')
 const history = require ('./Router/history')
 const userslogin = require('./Router/users')
 const auth = require("./Router/auth")
-
 const Route = express.Router()
+const cors = require('cors')
 
+Route.use(cors())
 
 Route.use("/product", data)
 Route.use ("/category", category)

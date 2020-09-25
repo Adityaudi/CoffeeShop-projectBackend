@@ -3,21 +3,16 @@ const DBdataUser= require('../Model/users')
 const jwt = require('jsonwebtoken')
 const JwtDecode = require('jwt-decode')
 
-const checkrole = async (req, res, next) => {
+const checkusername = async (req, res, next) => {
     try {
         const {token} = req.body
         const jwtToken = JwtDecode(token)
         const userRole = jwtToken.username
         const dataUser = await DBdataUser.getByUser(userRole)
-        if (dataUser[0].role === 'Admin'){
-            return res.status(200).json('welcome Admin')
-        }else {
-           res.status(401).json('ACCESS BLOCKED, Please call admin!')
-        }
-
+        console.log(dataUser[0].username)
     } catch (error) {
-        return res.status(500).json('Access Error!')       
+        return res.status(500).json(error)       
     }
 }
 
-module.exports = checkrole
+module.exports = checkusername

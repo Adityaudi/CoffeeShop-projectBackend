@@ -51,6 +51,7 @@ product.add = (req, res) => {
 
 product.update = (req, res) => {
     try {
+        console.log('a')
         const data = {
             ID : req.body.ID,
             NAME_PRODUCT : req.body.NAME_PRODUCT,
